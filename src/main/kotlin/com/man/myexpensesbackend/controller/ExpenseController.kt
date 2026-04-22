@@ -21,6 +21,11 @@ class ExpenseController(private val service: ExpenseService) {
     @GetMapping("/{id}")
     fun getById(@PathVariable id: Long) = service.findById(id)
 
+
+    @GetMapping("/user/{userId}")
+    fun getByUser(@PathVariable userId: Long) =
+        service.getByUser(userId)
+
     @PostMapping
     fun create(@RequestBody dto: ExpenseRequestDTO) =
         service.createExpense(dto)

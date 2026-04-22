@@ -7,5 +7,6 @@ data class ExpenseRequestDTO(
     val title: String,
     val amount: Double,
     val category: String,
-    val date: LocalDate
+    val date: LocalDate,
+    val userId: Long
 )

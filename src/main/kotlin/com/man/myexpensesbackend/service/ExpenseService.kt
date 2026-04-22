@@ -5,10 +5,14 @@ import com.man.myexpensesbackend.dtos.ExpenseRequestDTO
 import com.man.myexpensesbackend.dtos.ExpenseResponseDTO
 import com.man.myexpensesbackend.mapper.ExpenseMapper
 import com.man.myexpensesbackend.repository.ExpenseRepository
+import com.man.myexpensesbackend.repository.UserRepository
 import org.springframework.stereotype.Service
 
 @Service
-class ExpenseService(private val repository: ExpenseRepository) {
+class ExpenseService(
+    private val repository: ExpenseRepository,
+    private val userRepository: UserRepository
+) {
     fun getAllExpenses(): List<ExpenseResponseDTO> = repository.findAll().map {
         ExpenseMapper.toResponse(it)
     }
@@ -20,8 +24,17 @@ class ExpenseService(private val repository: ExpenseRepository) {
         return ExpenseMapper.toResponse(expense)
     }
 
+    fun getByUser(userId: Long): List<ExpenseResponseDTO> {
+        return repository.findByUserId(userId)
+            .map { ExpenseMapper.toResponse(it) }
+    }
+
+
     fun createExpense(dto: ExpenseRequestDTO): ExpenseResponseDTO {
-        val expense = ExpenseMapper.toEntity(dto)
+
+        val user = userRepository.findById(dto.userId)
+            .orElseThrow { NotFoundException("User not found") }
+        val expense = ExpenseMapper.toEntity(dto, user)
         return ExpenseMapper.toResponse(repository.save(expense))
     }
 
