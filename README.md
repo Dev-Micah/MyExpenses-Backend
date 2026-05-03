@@ -4,7 +4,50 @@ A clean and scalable Spring Boot + Kotlin backend for managing personal expenses
 
 ---
 
-# Tech Stack
+## Tech Stack
 
- Spring Boot with Kotlin
+- Spring Boot with Kotlin
+
+---
+
+## Database Setup
+
+This project requires a PostgreSQL database before the app can start.
+
+### 1. Make sure PostgreSQL is running
+
+```bash
+# Linux/macOS
+sudo systemctl status postgresql
+
+# Or check if the server is ready
+pg_isready
+```
+
+### 2. Create the database
+
+```bash
+psql -U postgres
+CREATE DATABASE myexpenses;
+\q
+```
+
+Or in one line:
+
+```bash
+createdb -U postgres myexpenses
+```
+
+### 3. Configure your connection
+
+Ensure your `application.properties` matches your local setup:
+
+```properties
+spring.datasource.url=jdbc:postgresql://localhost:5432/myexpenses
+spring.datasource.username=postgres
+spring.datasource.password=your_password
+```
+
+> If you're using environment variables or a `.env` file, those will take precedence over `application.properties`.
+
 ---
